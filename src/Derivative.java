@@ -49,54 +49,54 @@ public class Derivative{
 	
 	private int[][] seperate(String s) {
 	
-		int[][] terimler = new int[20][2];   //polinomda 20 farkli katsayi olabilir. dizi boyutunu arttirabiliriz
+		int[][] terms = new int[20][2];
 		int counter = 0;
-		String kiminTerimi="-5";
-		String terimKatsayisi="";
+		String whoseTerm="-5";
+		String termCoefs="";
 		for(int i = 0; i < s.length(); i++){
 			char c = s.charAt(i);
 			if(c >= '0' && c <= '9'){
 			
-				if(kiminTerimi.equals("-5"))
-					terimKatsayisi = terimKatsayisi + c;
+				if(whoseTerm.equals("-5"))
+					termCoefs = termCoefs + c;
 				else{
-					kiminTerimi = kiminTerimi + (c - '0');
+					whoseTerm = whoseTerm + (c - '0');
 				}
 			} else if(c == 'x'){
-				if(terimKatsayisi.equals(""))
-					terimKatsayisi = "1";
-				if(terimKatsayisi.equals("-"))
-					terimKatsayisi = "-1";
-				kiminTerimi = "1";
+				if(termCoefs.equals(""))
+					termCoefs = "1";
+				if(termCoefs.equals("-"))
+					termCoefs = "-1";
+				whoseTerm = "1";
 			} else if(c == '^'){
-				kiminTerimi = "";
+				whoseTerm = "";
 			} else if(c == '*' || c == ' '){
 			
 			} else if(c == '+'){
-				katsayilariGuncelle(terimKatsayisi, kiminTerimi, terimler, counter);
+				updateCoefs(termCoefs, whoseTerm, terms, counter);
 				counter++;
-				kiminTerimi = "-5";
-				terimKatsayisi = "";
+				whoseTerm = "-5";
+				termCoefs = "";
 			} else if(c == '-'){
-				katsayilariGuncelle(terimKatsayisi, kiminTerimi, terimler, counter);
+				updateCoefs(termCoefs, whoseTerm, terms, counter);
 				counter++;
-				kiminTerimi = "-5";
-				terimKatsayisi = "-";
+				whoseTerm = "-5";
+				termCoefs = "-";
 			}
 		}
-		katsayilariGuncelle(terimKatsayisi, kiminTerimi, terimler, counter);
+		updateCoefs(termCoefs, whoseTerm, terms, counter);
 		counter++;
 	
-		return terimler;
+		return terms;
 	}
 
-	private void katsayilariGuncelle(String katsayi, String kiminTerimi, int[][] dizi, int counter) {
-		if(kiminTerimi.equals("-5"))
-			kiminTerimi="0";
+	private void updateCoefs(String katsayi, String whoseTerm, int[][] arr, int counter) {
+		if(whoseTerm.equals("-5"))
+			whoseTerm="0";
 			
 		if(!katsayi.equals("")){			
-			dizi[counter][0] = Integer.parseInt(kiminTerimi);
-			dizi[counter][1] = Integer.parseInt(katsayi);
+			arr[counter][0] = Integer.parseInt(whoseTerm);
+			arr[counter][1] = Integer.parseInt(katsayi);
 		}
 	}
 }
