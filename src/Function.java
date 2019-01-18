@@ -1,56 +1,35 @@
 import java.util.Scanner;
 public class Function{
-
 	private String s;
-	
-	/*
 	Function() {
 		s = "";
-	}bos constructer eklemedim, cunku UML diagraminda yoktu
-	*/
-				
+	}			
 	Function(String s) {
 		this.s = s;
 	}
-	
 	public String getS() {
 		return s;
 	}
-	
 	public void setS(String prmtS) {
 		s = prmtS;
+	}		
+	public double evaluate(double x) {	
+		int[][] polynom = seperate();  
+		double answer=0; 
+		for(int i=0; i < polynom.length; i++)
+			answer = answer + polynom[i][1] * Math.pow(x,polynom[i][0]);
+		return answer;
 	}
-			
-	public double evaluate(double x) {
-		
-		int[][] sonuc = parcala();  //parcala metodu polinomu 1. eleman us, 2. eleman katsayi olacak sekilde ayiriyor.
-		double cevap=0;             //sonucu 2 boyutlu arraye atiyorum.
-		
-		for(int i=0; i < sonuc.length; i++){
-			
-			cevap = cevap + sonuc[i][1] * Math.pow(x,sonuc[i][0]);   // f(x) isleminin sonucu burada yapiliyor.
-		
-		}
-		
-		return cevap;
-	}
-	
 	public int getCoef(int power) {
-	
-		int[][] sonuc = parcala();
-		int cevap=0;
-		
-		for(int i=0; i<sonuc.length;i++){ //parcala metodu ile tekrar us ve katsayilari arraye atiyoruz.
-			if(sonuc[i][0] == power)    //ussun katsayisi return ediliyor. 
-				cevap = cevap + sonuc[i][1];
-		}
-		
-		return cevap;
+		int[][] polynom = seperate();
+		int ans=0;
+		for(int i=0; i<polynom.length;i++)
+			if(polynom[i][0] == power)
+				ans = ans + polynom[i][1];
+		return ans;
 	}
-
-	private int[][] parcala() {
-	
-		int[][] terimler = new int[20][2];   //polinomda suan 20 farkli katsayi olabilir. dizi boyutunu arttirabiliriz.
+	private int[][] seperate() {
+		int[][] terimler = new int[20][2];
 		int counter = 0;
 		String kiminTerimi="-5";
 		String terimKatsayisi="";

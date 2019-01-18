@@ -1,57 +1,53 @@
 public class Derivative{
 
-	Derivative() {}  //default constructor.
+	Derivative() {}
 
 	public Function findDerivative(Function f){
-	
-		Function yeni = new Function(f.getS());
+		Function func = new Function(f.getS());
+		int[][] ans = seperate(func.getS());
 		
-		int[][] sonuc = parcala(yeni.getS());   //parcala metodu ile us ve katsayilari ayirip arraye gonderdik.
+		for(int i=0; i<ans.length; i++)
+			ans[i][1] = ans[i][1] * ans[i][0];
 		
-		for(int i=0; i<sonuc.length; i++)       //yeni katsayi = katsayi x us islemini yaptik.
-			sonuc[i][1] = sonuc[i][1] * sonuc[i][0];
-		
-		for(int i=0; i<sonuc.length; i++)   //burada ussu bir azaltiyoruz.
-			if(sonuc[i][0] != 0)
-				sonuc[i][0] = sonuc[i][0] - 1;
+		for(int i=0; i<ans.length; i++)
+			if(ans[i][0] != 0)
+				ans[i][0] = ans[i][0] - 1;
 							
 		
-		String polinom="";   //bu for dongusu return edecegimiz function'in stringini olusturuyor. 
-		for(int i=0; i<sonuc.length-1; i++)
-			if(sonuc[i][0] == 0 && sonuc[i][1] == 0){}
+		String polynom = "";
+		for(int i=0; i<ans.length-1; i++)
+			if(ans[i][0] == 0 && ans[i][1] == 0){}
 			
-			else if(sonuc[i][0] == 0 && sonuc[i][1] > 0)
-				polinom = polinom + "+" + sonuc[i][1];
+			else if(ans[i][0] == 0 && ans[i][1] > 0)
+				polynom = polynom + "+" + ans[i][1];
 			
-			else if(sonuc[i][0] == 0 && sonuc[i][1] < 0 )
-				polinom = polinom + sonuc[i][1];
+			else if(ans[i][0] == 0 && ans[i][1] < 0 )
+				polynom = polynom + ans[i][1];
 				
-			else if(sonuc[i+1][1]<0)
-				polinom = polinom + sonuc[i][1] + "x^"+sonuc[i][0];
+			else if(ans[i+1][1]<0)
+				polynom = polynom + ans[i][1] + "x^"+ans[i][0];
 			else
-				polinom = polinom + sonuc[i][1] + "x^"+sonuc[i][0]+"+";
-				
-			//arraydeki elemanlarin hepsini yanyana ekledik.
-	
+				polynom = polynom + ans[i][1] + "x^"+ans[i][0]+"+";
+					
 		
-		if(polinom.endsWith("+"))  //string duzenleme islemi.
-			polinom = polinom.substring(0,polinom.length()-1);
+		if(polynom.endsWith("+"))
+			polynom = polynom.substring(0,polynom.length()-1);
 				
-		if(polinom.indexOf("^1") >= 0)
-			polinom = polinom.replace("^1","");
+		if(polynom.indexOf("^1") >= 0)
+			polynom = polynom.replace("^1","");
 			
-		if(polinom.indexOf("+-") >=0)
-			polinom = polinom.replace("+-","-");
+		if(polynom.indexOf("+-") >=0)
+			polynom = polynom.replace("+-","-");
 			
-		if(polinom.indexOf("++") >=0)
-			polinom = polinom.replace("++","+");
+		if(polynom.indexOf("++") >=0)
+			polynom = polynom.replace("++","+");
 			
 		
-		yeni.setS(polinom);		
-		return yeni;
+		func.setS(polynom);		
+		return func;
 	}
 	
-	private int[][] parcala(String s) {
+	private int[][] seperate(String s) {
 	
 		int[][] terimler = new int[20][2];   //polinomda 20 farkli katsayi olabilir. dizi boyutunu arttirabiliriz
 		int counter = 0;
